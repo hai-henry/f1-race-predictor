@@ -1,3 +1,7 @@
+"""
+Scrape race data from 1950-2024 from the Formula 1 website.
+"""
+
 import random
 import re
 import time
@@ -43,9 +47,9 @@ races = {
 }
 
 
-def scrape_year(year):
+def scrape_season(year):
     """
-    Scrape race data for a given year.
+    Scrape race data for a given season.
 
     Args:
         year (int): Season year
@@ -100,7 +104,7 @@ def scrape_year(year):
 
 def main():
     for year in range(BEGIN_SCRAPE_SEASON, END_SCRAPE_SEASON + 1):
-        scrape_year(year)
+        scrape_season(year)
 
     # Convert only non-zero keys in races to DataFrame
     non_zero_races = {key: value for key, value in races.items() if len(value) > 0}
