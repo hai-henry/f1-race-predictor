@@ -6,7 +6,12 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-headers = {
+BEGIN_SCRAPE_SEASON = 1950
+END_SCRAPE_SEASON = 2024
+EXPECTED_COMPONENTS_LENGTH = 6
+
+# Headers for the HTTP request
+HEADERS = {
     "Accept": "*/*",
     "Accept-Encoding": "gzip, deflate, br, zstd",
     "Accept-Language": "en-US,en;q=0.9",
@@ -23,12 +28,9 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
 }
 
+# Base URL for Formula 1 results
+BASE_URL = "https://www.formula1.com/en/results/{year}/races"
 
-# Base URL for formula 1 results
-base_url = "https://www.formula1.com/en/results/{year}/races"
-
-
-# Initialize the races dictionary
 races = {
     "season": [],
     "grand_prix": [],
@@ -40,55 +42,65 @@ races = {
     "url": [],
 }
 
-# Seasons to scrape
-begin_scrape_season = 1950
-end_scrape_season = 2024
+
+def scrape_year(year):
+    """
+    Scrape race data for a given year.
+
+    Args:
+        year (int): Season year
+    """
+
+    print(f"Scraping year: {year}, URL: {BASE_URL.format(year=year)}")
+    url = BASE_URL.format(year=year)
+
+    try:
+        response = requests.get(url, headers=HEADERS)  # Get the response
+        response.raise_for_status()  # Raise an error for bad responses
+        soup = BeautifulSoup(response.content, "html.parser")
+    except requests.RequestException as e:
+        print(f"Error fetching data for year {year}: {e}")
+        return
+
+    rows = soup.find_all("tr", class_=re.compile("bg-(brand-white|grey-10)"))
+    for row in rows:
+        data_cells = row.find_all(
+            "p",
+            class_="f1-text font-titillium tracking-normal font-normal non-italic normal-case leading-none f1-text__micro text-fs-15px",
+        )
+
+        url_to_append = f"https://www.formula1.com/en/results/{year}/"
+        for cell in data_cells:
+            race_url_element = cell.find(
+                "a",
+                class_="underline underline-offset-normal decoration-1 decoration-greyLight hover:decoration-brand-primary",
+            )
+            if race_url_element:
+                race_url = race_url_element["href"]
+                url_to_append += race_url
+                break
+
+        # Clean each cell's text
+        components = [cell.text.strip().replace("\xa0", " ") for cell in data_cells]
+
+        if len(components) >= EXPECTED_COMPONENTS_LENGTH:
+            races["season"].append(year)
+            races["grand_prix"].append(components[0])
+            races["date"].append(components[1])
+            races["winner"].append(components[2])
+            races["team"].append(components[3])
+            races["laps"].append(components[4])
+            races["time"].append(components[5])
+            races["url"].append(url_to_append)
+        else:
+            print(f"Skipping row due to unexpected structure: {components}")
+
+    time.sleep(random.uniform(3, 12))  # Delay to avoid overwhelming the server
 
 
 def main():
-    for year in range(end_scrape_season, end_scrape_season + 1):
-        print(f"Scraping year: {year}, URL: {base_url.format(year=year)}")
-
-        url = base_url.format(year=year)
-        response = requests.get(url, headers=headers)
-        soup = BeautifulSoup(response.content, "html.parser")
-
-        rows = soup.find_all("tr", class_=re.compile("bg-(brand-white|grey-10)"))
-        for row in rows:
-            data_cells = row.find_all(
-                "p",
-                class_="f1-text font-titillium tracking-normal font-normal non-italic normal-case leading-none f1-text__micro text-fs-15px",
-            )
-
-            url_to_append = f"https://www.formula1.com/en/results/{year}/"
-            for cell in data_cells:
-                race_url_element = cell.find(
-                    "a",
-                    class_="underline underline-offset-normal decoration-1 decoration-greyLight hover:decoration-brand-primary",
-                )
-                if race_url_element:
-                    race_url = race_url_element["href"]
-                    url_to_append += race_url
-                    break
-
-            # Clean each cell's text
-            components = [cell.text.strip().replace("\xa0", " ") for cell in data_cells]
-
-            # Ensure the extracted components have the expected structure
-            if len(components) >= 6:  # Adjust based on the number of fields
-                races["season"].append(year)
-                races["grand_prix"].append(components[0])
-                races["date"].append(components[1])
-                races["winner"].append(components[2])
-                races["team"].append(components[3])
-                races["laps"].append(components[4])
-                races["time"].append(components[5])
-                races["url"].append(url_to_append)
-            else:
-                print(f"Skipping row due to unexpected structure: {components}")
-
-        # Add a delay after processing each year to avoid overwhelming the server
-        time.sleep(random.uniform(3, 12))  # 3-12 second delay
+    for year in range(BEGIN_SCRAPE_SEASON, END_SCRAPE_SEASON + 1):
+        scrape_year(year)
 
     # Convert only non-zero keys in races to DataFrame
     non_zero_races = {key: value for key, value in races.items() if len(value) > 0}
