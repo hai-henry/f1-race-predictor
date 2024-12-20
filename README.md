@@ -17,7 +17,7 @@ Project Definition → Data Collection → Data Cleaning → Data Analysis → M
 For data collection, I am primarily using the [FastF1](https://docs.fastf1.dev/) API. I am also scraping [Formula 1's website](https://www.formula1.com/en/results/2024/races) to fill in the gaps in FastF1's data. For example, FastF1's API only has race dates from the 2018 season onwards, at the current moment of writing this, it is not significantly important but having multiple options especially from Formula One is beneficial.
 
 ### Races
-For my first dataset collected for races, the data scraped from Formula 1’s website contains information of each season from 1950-2024 along with the winner, constructor of the winner, laps, and URL of each race. For the second dataset for races collected from FastF1's API, the dataset contains season, round number, grand prix, country, and location.
+For my first dataset collected for races, the data scraped from Formula 1’s website contains information of each season from 1950-2024 along with the winner, constructor of the winner, laps, and URL of each race. For the second dataset for races collected from FastF1's API, the dataset contains season, round number, grand prix, sessions, country, and location.
 | Season | Grand Prix       | Date       | Winner                 | Constructor            | Laps | Time         | URL                                                                 |
 |--------|------------------|------------|------------------------|------------------------|------|--------------|---------------------------------------------------------------------|
 | 1950   | Great Britain    | 1950-05-13 | Nino FarinaFAR         | Alfa Romeo             | 70   | 2:13:23.600  | [Link](https://www.formula1.com/en/results/1950/races/94/great-britain/race-result) |
@@ -31,13 +31,13 @@ For my first dataset collected for races, the data scraped from Formula 1’s we
 </div>
 <br>
 
-| Season | Round Number | Event Name            | Country       | Location      | Event Date |
-|--------|--------------|-----------------------|---------------|---------------|------------|
-| 1950   | 1            | British Grand Prix   | UK            | Silverstone   | NaN        |
-| 1950   | 2            | Monaco Grand Prix    | Monaco        | Monte-Carlo   | NaN        |
-| 1950   | 3            | Indianapolis 500     | USA           | Indianapolis  | NaN        |
-| 1950   | 4            | Swiss Grand Prix     | Switzerland   | Bern          | NaN        |
-| 1950   | 5            | Belgian Grand Prix   | Belgium       | Spa           | NaN        |
+| Season | Round Number | Event Name          | Country       | Location      | Event Date | Session One | Session Two | Session Three | Session Four | Session Five |
+|--------|--------------|---------------------|---------------|---------------|------------|-------------|-------------|---------------|--------------|--------------|
+| 1950   | 1            | British Grand Prix  | UK            | Silverstone   | NaN        | Practice 1  | Practice 2  | Practice 3    | Qualifying   | Race         |
+| 1950   | 2            | Monaco Grand Prix   | Monaco        | Monte-Carlo   | NaN        | Practice 1  | Practice 2  | Practice 3    | Qualifying   | Race         |
+| 1950   | 3            | Indianapolis 500    | USA           | Indianapolis  | NaN        | Practice 1  | Practice 2  | Practice 3    | Qualifying   | Race         |
+| 1950   | 4            | Swiss Grand Prix    | Switzerland   | Bern          | NaN        | Practice 1  | Practice 2  | Practice 3    | Qualifying   | Race         |
+| 1950   | 5            | Belgian Grand Prix  | Belgium       | Spa           | NaN        | Practice 1  | Practice 2  | Practice 3    | Qualifying   | Race         |
 
 <div align="center">
     <i>Table 1.1: Race data collected from FastF1 API.</i>
