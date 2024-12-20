@@ -18,3 +18,27 @@ For data collection, I am primarily using the [FastF1](https://docs.fastf1.dev/)
 
 ### Races
 For my first dataset collected for races, the data scraped from Formula 1’s website contains information of each season from 1950-2024 along with the winner, constructor of the winner, laps, and URL of each race. For the second dataset for races collected from FastF1's API, the dataset contains season, round number, grand prix, country, and location.
+| Season | Grand Prix       | Date       | Winner                 | Constructor            | Laps | Time         | URL                                                                 |
+|--------|------------------|------------|------------------------|------------------------|------|--------------|---------------------------------------------------------------------|
+| 1950   | Great Britain    | 1950-05-13 | Nino FarinaFAR         | Alfa Romeo             | 70   | 2:13:23.600  | [Link](https://www.formula1.com/en/results/1950/races/94/great-britain/race-result) |
+| 1950   | Monaco           | 1950-05-21 | Juan Manuel FangioFAN  | Alfa Romeo             | 100  | 3:13:18.700  | [Link](https://www.formula1.com/en/results/1950/races/95/monaco/race-result)      |
+| 1950   | Indianapolis     | 1950-05-30 | Johnnie ParsonsPAR     | Kurtis Kraft Offenhauser | 138 | 2:46:55.970  | [Link](https://www.formula1.com/en/results/1950/races/96/indianapolis/race-result) |
+| 1950   | Switzerland      | 1950-06-04 | Nino FarinaFAR         | Alfa Romeo             | 42   | 2:02:53.700  | [Link](https://www.formula1.com/en/results/1950/races/97/switzerland/race-result) |
+| 1950   | Belgium          | 1950-06-18 | Juan Manuel FangioFAN  | Alfa Romeo             | 35   | 2:47:26.000  | [Link](https://www.formula1.com/en/results/1950/races/98/belgium/race-result)    |
+
+<div align="center">
+    <i>Table 1: Race data scraped from Formula 1 website.</i>
+</div>
+<br>
+
+| Season | Round Number | Event Name            | Country       | Location      | Event Date |
+|--------|--------------|-----------------------|---------------|---------------|------------|
+| 1950   | 1            | British Grand Prix   | UK            | Silverstone   | NaN        |
+| 1950   | 2            | Monaco Grand Prix    | Monaco        | Monte-Carlo   | NaN        |
+| 1950   | 3            | Indianapolis 500     | USA           | Indianapolis  | NaN        |
+| 1950   | 4            | Swiss Grand Prix     | Switzerland   | Bern          | NaN        |
+| 1950   | 5            | Belgian Grand Prix   | Belgium       | Spa           | NaN        |
+
+<div align="center">
+    <i>Table 1.1: Race data collected from FastF1 API.</i>
+</div>
