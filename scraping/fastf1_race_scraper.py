@@ -29,37 +29,41 @@ def scrape_season(year):
     print(f"Scraping season: {year}")
     season = fastf1.get_event_schedule(year)
 
-    for gp in season:
+    # Use iterrows() to iterate over the DataFrame rows
+    for _, gp in season.iterrows():
         try:
             races["season"].append(year)
-        except Exception as e:
+        except Exception:
             races["season"].append(None)
 
         try:
-            races["round_num"].append(gp["Round"])
-        except Exception as e:
+            races["round_num"].append(gp["RoundNumber"])
+        except Exception:
             races["round_num"].append(None)
 
         try:
             races["event_name"].append(gp["EventName"])
-        except Exception as e:
+        except Exception:
             races["event_name"].append(None)
 
         try:
             races["country"].append(gp["Country"])
-        except Exception as e:
+        except Exception:
             races["country"].append(None)
 
         try:
             races["location"].append(gp["Location"])
-        except Exception as e:
+        except Exception:
             races["location"].append(None)
 
         try:
-            races["event_date"].append(gp["EventDate"])
-        except Exception as e:
+            # Clean the event date by removing time
+            event_date = pd.to_datetime(gp["Session1Date"]).date()
+            races["event_date"].append(event_date)
+        except Exception:
             races["event_date"].append(None)
 
+    # Add delay to avoid overwhelming the API
     time.sleep(random.uniform(3, 12))
 
 
@@ -67,7 +71,7 @@ def main():
     # Set the cache folder inside your project directory
     fastf1.Cache.enable_cache("./cache")
 
-    for year in range(2024, END_SCRAPE_SEASON + 1):
+    for year in range(BEGIN_SCRAPE_SEASON, END_SCRAPE_SEASON + 1):
         scrape_season(year)
 
     non_zero_races = {key: value for key, value in races.items() if len(value) > 0}

@@ -5,6 +5,7 @@ Scrape race data from 1950-2024 from the Formula 1 website.
 import random
 import re
 import time
+from datetime import datetime
 
 import pandas as pd
 import requests
@@ -55,19 +56,22 @@ def scrape_season(year):
         year (int): Season year
     """
 
-    print(f"Scraping year: {year}, URL: {BASE_URL.format(year=year)}")
+    print(f"Scraping season: {year}")
     url = BASE_URL.format(year=year)
 
+    # Attempt to get the response
     try:
-        response = requests.get(url, headers=HEADERS)  # Get the response
-        response.raise_for_status()  # Raise an error for bad responses
+        response = requests.get(url, headers=HEADERS)
+        response.raise_for_status()
         soup = BeautifulSoup(response.content, "html.parser")
     except requests.RequestException as e:
         print(f"Error fetching data for year {year}: {e}")
         return
 
+    # Target the rows with the specified class, rows are white and grey on the website
     rows = soup.find_all("tr", class_=re.compile("bg-(brand-white|grey-10)"))
     for row in rows:
+        # For each row, find the cells with paragraph tags
         data_cells = row.find_all(
             "p",
             class_="f1-text font-titillium tracking-normal font-normal non-italic normal-case leading-none f1-text__micro text-fs-15px",
@@ -88,14 +92,50 @@ def scrape_season(year):
         components = [cell.text.strip().replace("\xa0", " ") for cell in data_cells]
 
         if len(components) >= EXPECTED_COMPONENTS_LENGTH:
-            races["season"].append(year)
-            races["grand_prix"].append(components[0])
-            races["date"].append(components[1])
-            races["winner"].append(components[2])
-            races["constructor"].append(components[3])
-            races["laps"].append(components[4])
-            races["time"].append(components[5])
-            races["url"].append(url_to_append)
+            try:
+                races["season"].append(year)
+            except Exception:
+                races["season"].append(None)
+
+            try:
+                races["grand_prix"].append(components[0])
+            except Exception:
+                races["grand_prix"].append(None)
+
+            try:
+                # Format the date to YYYY-MM-DD
+                original_date = components[1]
+                formatted_date = datetime.strptime(original_date, "%d %b %Y").strftime(
+                    "%Y-%m-%d"
+                )
+                races["date"].append(formatted_date)
+            except Exception:
+                races["date"].append(None)
+
+            try:
+                races["winner"].append(components[2])
+            except Exception:
+                races["winner"].append(None)
+
+            try:
+                races["constructor"].append(components[3])
+            except Exception:
+                races["constructor"].append(None)
+
+            try:
+                races["laps"].append(components[4])
+            except Exception:
+                races["laps"].append(None)
+
+            try:
+                races["time"].append(components[5])
+            except Exception:
+                races["time"].append(None)
+
+            try:
+                races["url"].append(url_to_append)
+            except Exception:
+                races["url"].append(None)
         else:
             print(f"Skipping row due to unexpected structure: {components}")
 
@@ -109,8 +149,8 @@ def main():
     # Convert only non-zero keys in races to DataFrame
     non_zero_races = {key: value for key, value in races.items() if len(value) > 0}
     df = pd.DataFrame(non_zero_races)
-    df.to_csv("data/raw/races.csv", index=False)
-    print("Races data saved to races.csv")
+    df.to_csv("data/raw/races(1950-2024).csv", index=False)
+    print("Races data saved to races(1950-2024).csv")
 
 
 if __name__ == "__main__":
