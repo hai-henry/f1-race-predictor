@@ -1,19 +1,15 @@
 """
-Scrape race results data from 1950-1950 from fastf1 api.
+Scrape race results data from 1950-1950 from FastF1 API.
 """
 
 import random
 import time
 
 import fastf1
-import fastf1.plotting
-import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
 
 BEGIN_SCRAPE_SEASON = 1950
 END_SCRAPE_SEASON = 2024
-
 
 races = {
     "season": [],
@@ -22,6 +18,11 @@ races = {
     "country": [],
     "location": [],
     "event_date": [],
+    "session_one": [],
+    "session_two": [],
+    "session_three": [],
+    "session_four": [],
+    "session_five": [],
 }
 
 
@@ -63,8 +64,32 @@ def scrape_season(year):
         except Exception:
             races["event_date"].append(None)
 
-    # Add delay to avoid overwhelming the API
-    time.sleep(random.uniform(3, 12))
+        try:
+            races["session_one"].append(gp["Session1"])
+        except Exception:
+            races["session_one"].append(None)
+
+        try:
+            races["session_two"].append(gp["Session2"])
+        except Exception:
+            races["session_two"].append(None)
+
+        try:
+            races["session_three"].append(gp["Session3"])
+        except Exception:
+            races["session_three"].append(None)
+
+        try:
+            races["session_four"].append(gp["Session4"])
+        except Exception:
+            races["session_four"].append(None)
+
+        try:
+            races["session_five"].append(gp["Session5"])
+        except Exception:
+            races["session_five"].append(None)
+
+    time.sleep(random.uniform(3, 12))  # Add delay to avoid overwhelming the API
 
 
 def main():
@@ -76,8 +101,8 @@ def main():
 
     non_zero_races = {key: value for key, value in races.items() if len(value) > 0}
     df = pd.DataFrame(non_zero_races)
-    df.to_csv("data/raw/fastf1_races(1950-2024).csv", index=False)
-    print("Races data saved to fastf1_races(1950-2024).csv")
+    df.to_csv("data/raw/fastf1_races_sessions(1950-2024).csv", index=False)
+    print("Races data saved to fastf1_races_sessions(1950-2024).csv")
 
 
 if __name__ == "__main__":
