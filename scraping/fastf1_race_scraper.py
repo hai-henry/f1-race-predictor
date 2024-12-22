@@ -24,6 +24,7 @@ races = {
     "session_four": [],
     "session_five": [],
 }
+# TODO: Clean up code
 
 
 def scrape_season(year):

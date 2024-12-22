@@ -48,6 +48,13 @@ races = {
 }
 
 
+def safe_append(dictionary, key, value, default=None):
+    try:
+        dictionary[key].append(value)
+    except Exception:
+        dictionary[key].append(default)
+
+
 def scrape_season(year):
     """
     Scrape race data for a given season.
@@ -92,50 +99,18 @@ def scrape_season(year):
         components = [cell.text.strip().replace("\xa0", " ") for cell in data_cells]
 
         if len(components) >= EXPECTED_COMPONENTS_LENGTH:
-            try:
-                races["season"].append(year)
-            except Exception:
-                races["season"].append(None)
-
-            try:
-                races["grand_prix"].append(components[0])
-            except Exception:
-                races["grand_prix"].append(None)
-
-            try:
-                # Format the date to YYYY-MM-DD
-                original_date = components[1]
-                formatted_date = datetime.strptime(original_date, "%d %b %Y").strftime(
-                    "%Y-%m-%d"
-                )
-                races["date"].append(formatted_date)
-            except Exception:
-                races["date"].append(None)
-
-            try:
-                races["winner"].append(components[2])
-            except Exception:
-                races["winner"].append(None)
-
-            try:
-                races["constructor"].append(components[3])
-            except Exception:
-                races["constructor"].append(None)
-
-            try:
-                races["laps"].append(components[4])
-            except Exception:
-                races["laps"].append(None)
-
-            try:
-                races["time"].append(components[5])
-            except Exception:
-                races["time"].append(None)
-
-            try:
-                races["url"].append(url_to_append)
-            except Exception:
-                races["url"].append(None)
+            safe_append(races, "season", year)
+            safe_append(races, "grand_prix", components[0])
+            safe_append(
+                races,
+                "date",
+                datetime.strptime(components[1], "%d %b %Y").strftime("%Y-%m-%d"),
+            )
+            safe_append(races, "winner", components[2])
+            safe_append(races, "constructor", components[3])
+            safe_append(races, "laps", components[4])
+            safe_append(races, "time", components[5])
+            safe_append(races, "url", url_to_append)
         else:
             print(f"Skipping row due to unexpected structure: {components}")
 
@@ -149,8 +124,8 @@ def main():
     # Convert only non-zero keys in races to DataFrame
     non_zero_races = {key: value for key, value in races.items() if len(value) > 0}
     df = pd.DataFrame(non_zero_races)
-    df.to_csv("data/raw/races(1950-2024).csv", index=False)
-    print("Races data saved to races(1950-2024).csv")
+    df.to_csv("data/raw/f1_races(1950-2024).csv", index=False)
+    print("Races data saved to f1_races(1950-2024).csv")
 
 
 if __name__ == "__main__":

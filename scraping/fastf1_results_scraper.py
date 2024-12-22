@@ -31,11 +31,13 @@ results = {
 
 RACES = pd.read_csv("data/raw/races/fastf1_races(1950-2024).csv")
 
+# TODO: Account for failures. eg. 2017 Abu Dhabi Grand Prix failed to scrape
+
 
 def main():
     fastf1.Cache.enable_cache("./cache")
 
-    for _, row in RACES.iterrows():
+    for index, row in RACES.iterrows():
         season = row["season"]
         round_num = row["round_num"]
         grand_prix = row["event_name"]
@@ -76,6 +78,7 @@ def main():
                 results["grid_position"].append(None)
 
             try:
+                # Remove "0 days" from the time string
                 raw_time = row["Time"]
                 if pd.notnull(raw_time):  # Check if the time is not null
                     if isinstance(raw_time, pd.Timedelta):  # If it's a Timedelta object
@@ -143,7 +146,7 @@ def main():
             except Exception:
                 results["country_code"].append(None)
 
-        time.sleep(random.uniform(3, 12))  # Delay to avoid overwhelming the server
+        # time.sleep(random.uniform(3, 12))  # Delay to avoid overwhelming the server
 
     # Convert only non-zero keys in races to DataFrame
     non_zero_results = {key: value for key, value in results.items() if len(value) > 0}
