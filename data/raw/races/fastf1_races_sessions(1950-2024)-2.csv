@@ -1,0 +1,49 @@
+season,round_num,event_name,country,location,event_date,session_one,session_two,session_three,session_four,session_five
+2023,0,Pre-Season Testing,Bahrain,Sakhir,2023-02-23,Practice 1,Practice 2,Practice 3,None,None
+2023,1,Bahrain Grand Prix,Bahrain,Sakhir,2023-03-03,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,2,Saudi Arabian Grand Prix,Saudi Arabia,Jeddah,2023-03-17,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,3,Australian Grand Prix,Australia,Melbourne,2023-03-31,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,4,Azerbaijan Grand Prix,Azerbaijan,Baku,2023-04-28,Practice 1,Qualifying,Sprint Shootout,Sprint,Race
+2023,5,Miami Grand Prix,United States,Miami,2023-05-05,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,6,Monaco Grand Prix,Monaco,Monaco,2023-05-26,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,7,Spanish Grand Prix,Spain,Barcelona,2023-06-02,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,8,Canadian Grand Prix,Canada,Montréal,2023-06-16,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,9,Austrian Grand Prix,Austria,Spielberg,2023-06-30,Practice 1,Qualifying,Sprint Shootout,Sprint,Race
+2023,10,British Grand Prix,Great Britain,Silverstone,2023-07-07,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,11,Hungarian Grand Prix,Hungary,Budapest,2023-07-21,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,12,Belgian Grand Prix,Belgium,Spa-Francorchamps,2023-07-28,Practice 1,Qualifying,Sprint Shootout,Sprint,Race
+2023,13,Dutch Grand Prix,Netherlands,Zandvoort,2023-08-25,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,14,Italian Grand Prix,Italy,Monza,2023-09-01,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,15,Singapore Grand Prix,Singapore,Marina Bay,2023-09-15,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,16,Japanese Grand Prix,Japan,Suzuka,2023-09-22,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,17,Qatar Grand Prix,Qatar,Lusail,2023-10-06,Practice 1,Qualifying,Sprint Shootout,Sprint,Race
+2023,18,United States Grand Prix,United States,Austin,2023-10-20,Practice 1,Qualifying,Sprint Shootout,Sprint,Race
+2023,19,Mexico City Grand Prix,Mexico,Mexico City,2023-10-27,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,20,São Paulo Grand Prix,Brazil,São Paulo,2023-11-03,Practice 1,Qualifying,Sprint Shootout,Sprint,Race
+2023,21,Las Vegas Grand Prix,United States,Las Vegas,2023-11-16,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2023,22,Abu Dhabi Grand Prix,Abu Dhabi,Yas Island,2023-11-24,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,0,Pre-Season Testing,Bahrain,Sakhir,2024-02-21,Practice 1,Practice 2,Practice 3,None,None
+2024,1,Bahrain Grand Prix,Bahrain,Sakhir,2024-02-29,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,2,Saudi Arabian Grand Prix,Saudi Arabia,Jeddah,2024-03-07,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,3,Australian Grand Prix,Australia,Melbourne,2024-03-22,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,4,Japanese Grand Prix,Japan,Suzuka,2024-04-05,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,5,Chinese Grand Prix,China,Shanghai,2024-04-19,Practice 1,Sprint Qualifying,Sprint,Qualifying,Race
+2024,6,Miami Grand Prix,United States,Miami,2024-05-03,Practice 1,Sprint Qualifying,Sprint,Qualifying,Race
+2024,7,Emilia Romagna Grand Prix,Italy,Imola,2024-05-17,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,8,Monaco Grand Prix,Monaco,Monaco,2024-05-24,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,9,Canadian Grand Prix,Canada,Montréal,2024-06-07,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,10,Spanish Grand Prix,Spain,Barcelona,2024-06-21,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,11,Austrian Grand Prix,Austria,Spielberg,2024-06-28,Practice 1,Sprint Qualifying,Sprint,Qualifying,Race
+2024,12,British Grand Prix,United Kingdom,Silverstone,2024-07-05,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,13,Hungarian Grand Prix,Hungary,Budapest,2024-07-19,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,14,Belgian Grand Prix,Belgium,Spa-Francorchamps,2024-07-26,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,15,Dutch Grand Prix,Netherlands,Zandvoort,2024-08-23,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,16,Italian Grand Prix,Italy,Monza,2024-08-30,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,17,Azerbaijan Grand Prix,Azerbaijan,Baku,2024-09-13,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,18,Singapore Grand Prix,Singapore,Marina Bay,2024-09-20,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,19,United States Grand Prix,United States,Austin,2024-10-18,Practice 1,Sprint Qualifying,Sprint,Qualifying,Race
+2024,20,Mexico City Grand Prix,Mexico,Mexico City,2024-10-25,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,21,São Paulo Grand Prix,Brazil,São Paulo,2024-11-01,Practice 1,Sprint Qualifying,Sprint,Qualifying,Race
+2024,22,Las Vegas Grand Prix,United States,Las Vegas,2024-11-21,Practice 1,Practice 2,Practice 3,Qualifying,Race
+2024,23,Qatar Grand Prix,Qatar,Lusail,2024-11-29,Practice 1,Sprint Qualifying,Sprint,Qualifying,Race
+2024,24,Abu Dhabi Grand Prix,United Arab Emirates,Yas Island,2024-12-06,Practice 1,Practice 2,Practice 3,Qualifying,Race
