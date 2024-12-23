@@ -69,10 +69,9 @@ def clear_cache():
 
 
 def save_data(dictionary):
-    non_zero = {key: value for key, value in dictionary.items() if len(value) > 0}
-    df = pd.DataFrame(non_zero)
-    df.to_csv("data/raw/races/fastf1_races_sessions(1950-2024).csv", index=False)
-    print("Races data saved to fastf1_races_sessions(1950-2024).csv")
+    df = pd.DataFrame(dictionary)
+    df.to_csv("data/raw/races/fastf1_races(1950-2024).csv", index=False)
+    print("Races data saved to fastf1_races(1950-2024).csv")
 
 
 def main():
