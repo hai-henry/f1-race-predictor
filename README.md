@@ -2,9 +2,6 @@
 > [!NOTE]  
 > Currently collecting race results for each GP ranging from 1950-2024.
 
-> [!WARNING]  
-> Race results such as position, status, points, etc. are unable to be requested currently. Unsure if it is caused by Ergasat's being depreciated.
-
 ## Overview
 I've been a Formula 1 fan for a while now, always been fascinated with the intensity of this sport and how incredibly fit these drivers have to be in order to perform. Another incredible thing is just how much data is collected behind Formula 1, it's as much of a sport as it is a science experiment. I mean, a [single F1 car can have over 250 sensors on the car during race weekend](https://www.mercedesamgf1.com/news/feature-data-and-electronics-in-f1-explained). Can you image how much data is being collected just during a race with 250 sensors? Now, I’ve always been a spectator, but I was curious about what kind of data is being collected and what data I could access. I also wanted to see if I can find out: What are the biggest factors to winning? Is it the driver? Is it getting pole? Does weather increase or decrease a driver’s performance?
 
