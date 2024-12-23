@@ -59,20 +59,32 @@ def scrape_season(year):
                 races[race_key].append(value)
             except Exception:
                 races[race_key].append(None)
-        # time.sleep(random.uniform(3, 12))  # Add delay to avoid overwhelming the API
+
+
+def clear_cache():
+    clear_cache = input("Do you want to clear the cache? (y/n): ").lower()
+    if clear_cache == "y":
+        fastf1.Cache.clear_cache("./cache")
+        print("Cache cleared.")
+
+
+def save_data(dictionary):
+    non_zero = {key: value for key, value in dictionary.items() if len(value) > 0}
+    df = pd.DataFrame(non_zero)
+    df.to_csv("data/raw/races/fastf1_races_sessions(1950-2024).csv", index=False)
+    print("Races data saved to fastf1_races_sessions(1950-2024).csv")
 
 
 def main():
+    clear_cache()
+
     # Set the cache folder inside your project directory
     fastf1.Cache.enable_cache("./cache")
 
     for year in range(BEGIN_SCRAPE_SEASON, END_SCRAPE_SEASON + 1):
         scrape_season(year)
 
-    non_zero_races = {key: value for key, value in races.items() if len(value) > 0}
-    df = pd.DataFrame(non_zero_races)
-    df.to_csv("data/raw/races/fastf1_races_sessions(1950-2024)-2.csv", index=False)
-    print("Races data saved to fastf1_races_sessions(1950-2024).csv")
+    save_data(races)
 
 
 if __name__ == "__main__":
