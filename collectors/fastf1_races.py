@@ -27,10 +27,17 @@ races = {
 }
 
 
-def scrape_season(year):
+def fetch_season(year):
+    """
+    Fetch the race races for a given season.
+
+    Args:
+        year (int): The year to fetch the race data for.
+    """
     print(f"Scraping season: {year}")
     season = fastf1.get_event_schedule(year)
 
+    # Iterate over the grand prixs in the season
     for _, gp in season.iterrows():
         for race_key, column_name in {
             "season": None,
@@ -46,8 +53,9 @@ def scrape_season(year):
             "session_five": "Session5",
         }.items():
             try:
+                # Special cases (season and event_date)
                 if race_key == "season":
-                    value = year  # Special case for "season"
+                    value = year
                 elif race_key == "event_date":
                     value = (
                         pd.to_datetime(gp[column_name]).date()
@@ -56,22 +64,34 @@ def scrape_season(year):
                     )
                 else:
                     value = gp[column_name]
-                races[race_key].append(value)
+                races[race_key].append(value)  # Append the value to the dictionary
             except Exception:
-                races[race_key].append(None)
+                races[race_key].append(None)  # Append None if there's an error
+
+    time.sleep(random.uniform(3, 10))  # Time delay between requests
 
 
 def clear_cache():
+    """
+    Clear the cache.
+    """
     clear_cache = input("Do you want to clear the cache? (y/n): ").lower()
     if clear_cache == "y":
         fastf1.Cache.clear_cache("./cache")
         print("Cache cleared.")
 
 
-def save_data(dictionary):
+def save_data(dictionary, filename):
+    """
+    Save the race data to a CSV file.
+
+    Args:
+        dictionary (dict): The dictionary to save.
+        filename (str): The filename to save the data to.
+    """
     df = pd.DataFrame(dictionary)
-    df.to_csv("data/raw/races/fastf1_races(1950-2024).csv", index=False)
-    print("Races data saved to fastf1_races(1950-2024).csv")
+    df.to_csv(f"data/raw/races/{filename}.csv", index=False)
+    print(f"Races data saved to {filename}.csv")
 
 
 def main():
@@ -81,9 +101,9 @@ def main():
     fastf1.Cache.enable_cache("./cache")
 
     for year in range(BEGIN_SCRAPE_SEASON, END_SCRAPE_SEASON + 1):
-        scrape_season(year)
+        fetch_season(year)
 
-    save_data(races)
+    save_data(races, "fastf1_races(1950-2024)")
 
 
 if __name__ == "__main__":
