@@ -11,7 +11,6 @@ import pandas as pd
 
 # Load the races dataset, skipping processed rows
 RACES = pd.read_csv("data/raw/races/fastf1_races(1950-2024).csv")
-RACES = RACES[(RACES["season"] >= 2024)]
 
 # Load the results dataset, if it exists
 if os.path.exists("data/raw/results/fastf1_results(1950-2024).csv"):
