@@ -120,6 +120,7 @@ def fetch_results(races):
                 # Iterate over the fields in the dictionary
                 for key, column_name in fields.items():
                     try:
+                        # Handle the time field separately
                         if key == "time":
                             raw_time = driver_data.get(column_name, None)
                             if pd.notnull(raw_time):
