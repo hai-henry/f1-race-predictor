@@ -4,11 +4,11 @@
 
 - [x] Collect Races
 - [X] Collect Race Results
-- [] Collect Qualifying data
-- [] Collect Sprint  Data
-- [] Collect Constructor Standings
-- [] Collect Lap Times
-- [] Collect Weather Data
+- [ ] Collect Qualifying data
+- [ ] Collect Sprint  Data
+- [ ] Collect Constructor Standings
+- [ ] Collect Lap Times
+- [ ] Collect Weather Data
 
 
 ## Overview
