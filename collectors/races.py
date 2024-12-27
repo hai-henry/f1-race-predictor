@@ -13,7 +13,7 @@ BEGIN_SCRAPE_SEASON = 1950
 END_SCRAPE_SEASON = 2024
 
 # Load the races dataset, skipping processed rows
-RACES_PATH = "data/raw/races/races(1950-2024).csv"
+RACES_PATH = "data/raw/races(1950-2024).csv"
 if os.path.exists(RACES_PATH):
     EXISTING_RACES = pd.read_csv(RACES_PATH)
     processed = set(zip(EXISTING_RACES["season"], EXISTING_RACES["round_num"]))
@@ -115,7 +115,7 @@ def append_data_to_csv(dictionary, filename):
     df.to_csv(
         f"data/raw/races/{filename}.csv",
         mode="a",
-        header=not os.path.exists(f"data/raw/races/{filename}.csv"),
+        header=not os.path.exists(f"data/raw/{filename}.csv"),
         index=False,
     )
     print(f"Data appended to {filename}.csv")

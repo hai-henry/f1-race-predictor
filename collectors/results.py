@@ -10,11 +10,11 @@ import fastf1
 import pandas as pd
 
 # Load the races dataset, skipping processed rows
-RACES = pd.read_csv("data/raw/races/races(1950-2024).csv")
+RACES = pd.read_csv("data/raw/races(1950-2024).csv")
 
 # Load the results dataset, if it exists
-if os.path.exists("data/raw/results/results(1950-2024).csv"):
-    RESULTS = pd.read_csv("data/raw/results/results(1950-2024).csv")
+if os.path.exists("data/raw/results(1950-2024).csv"):
+    RESULTS = pd.read_csv("data/raw/results(1950-2024).csv")
     # Filter out already processed races
     processed = set(zip(RESULTS["season"], RESULTS["round"]))
     RACES = RACES[~RACES[["season", "round_num"]].apply(tuple, axis=1).isin(processed)]
@@ -66,9 +66,9 @@ def append_data_to_csv(dictionary, filename):
     """
     df = pd.DataFrame(dictionary)
     df.to_csv(
-        f"data/raw/results/{filename}.csv",
+        f"data/raw/{filename}.csv",
         mode="a",
-        header=not os.path.exists(f"data/raw/results/{filename}.csv"),
+        header=not os.path.exists(f"data/raw/{filename}.csv"),
         index=False,
     )
     print(f"Data appended to {filename}.csv")

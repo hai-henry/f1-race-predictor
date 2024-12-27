@@ -19,7 +19,7 @@ def main():
     qualifying_data = RACES[["season", "round_num"]]
 
     # Save to a new CSV file for verification
-    qualifying_data.to_csv("data/raw/qualifying/qualifying(1950-2024).csv", index=False)
+    qualifying_data.to_csv("data/raw/qualifying(1950-2024).csv", index=False)
 
     print("Qualifying rounds data saved to qualifying(1950-2024).csv")
 
