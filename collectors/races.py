@@ -13,7 +13,7 @@ BEGIN_SCRAPE_SEASON = 1950
 END_SCRAPE_SEASON = 2024
 
 # Load the races dataset, skipping processed rows
-RACES_PATH = "data/raw/races/fastf1_races(1950-2024).csv"
+RACES_PATH = "data/raw/races/races(1950-2024).csv"
 if os.path.exists(RACES_PATH):
     EXISTING_RACES = pd.read_csv(RACES_PATH)
     processed = set(zip(EXISTING_RACES["season"], EXISTING_RACES["round_num"]))
@@ -88,7 +88,7 @@ def fetch_season(year):
     if not new_data_added:
         print(f"No new data found for {year}.")
     else:
-        append_data_to_csv(races, "fastf1_races(1950-2024)")
+        append_data_to_csv(races, "races(1950-2024)")
 
     time.sleep(random.uniform(3, 10))  # Time delay between requests
 

@@ -10,11 +10,11 @@ import fastf1
 import pandas as pd
 
 # Load the races dataset, skipping processed rows
-RACES = pd.read_csv("data/raw/races/fastf1_races(1950-2024).csv")
+RACES = pd.read_csv("data/raw/races/races(1950-2024).csv")
 
 # Load the results dataset, if it exists
-if os.path.exists("data/raw/results/fastf1_results(1950-2024).csv"):
-    RESULTS = pd.read_csv("data/raw/results/fastf1_results(1950-2024).csv")
+if os.path.exists("data/raw/results/results(1950-2024).csv"):
+    RESULTS = pd.read_csv("data/raw/results/results(1950-2024).csv")
     # Filter out already processed races
     processed = set(zip(RESULTS["season"], RESULTS["round"]))
     RACES = RACES[~RACES[["season", "round_num"]].apply(tuple, axis=1).isin(processed)]
@@ -137,7 +137,7 @@ def fetch_results(races):
                         results[key].append(None)
 
             # Actively append the fetched data to the CSV
-            append_data_to_csv(results, "fastf1_results(1950-2024)")
+            append_data_to_csv(results, "results(1950-2024)")
         except Exception as e:
             print(f"Error processing season {season}, round {round_num}: {e}")
         finally:
