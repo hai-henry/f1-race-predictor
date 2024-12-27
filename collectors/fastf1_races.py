@@ -1,5 +1,5 @@
 """
-Scrape race results data from 1950-2024 from FastF1 API and actively append to CSV file.
+Scrape races data from 1950-2024 from FastF1 API and actively append to CSV file.
 """
 
 import os
@@ -81,9 +81,9 @@ def fetch_season(year):
                     )
                 else:
                     value = gp[column_name]
-                races[race_key].append(value)  # Append the value to the dictionary
+                races[race_key].append(value)
             except Exception:
-                races[race_key].append(None)  # Append None if there's an error
+                races[race_key].append(None)
 
     if not new_data_added:
         print(f"No new data found for {year}.")
@@ -123,8 +123,6 @@ def append_data_to_csv(dictionary, filename):
 
 def main():
     clear_cache()
-
-    # Set the cache folder inside your project directory
     fastf1.Cache.enable_cache("./cache")
 
     for year in range(BEGIN_SCRAPE_SEASON, END_SCRAPE_SEASON + 1):
