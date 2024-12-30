@@ -73,14 +73,14 @@ def clean_time(raw_time):
     return None
 
 
-def main():
-    clear_cache()
-    fastf1.Cache.enable_cache("./cache")
+def fetch_qualifying(races):
+    """
+    Fetch qualifying data for given races.
 
-    races = pd.read_csv(RACES_PATH)
-    races = races[races["season"] == 2024]
+    Args:
+        races (dataframe): Dataframe containing qualifying details (season, round_num, event_name, drivers, qualifying times).
+    """
     qualifying = initialize_qualifying()
-
     for _, row in races.iterrows():
         season = row["season"]
         round_num = row["round_num"]
@@ -105,6 +105,7 @@ def main():
 
             append_data_to_csv(qualifying, "qualifying(1950-2024)")
 
+            # Reset qualifying dictionary for the next session
             qualifying = initialize_qualifying()
         except Exception as e:
             print(
@@ -112,6 +113,35 @@ def main():
             )
 
         time.sleep(random.uniform(*DELAY_RANGE))  # Delay to avoid overloading the API
+
+
+def main():
+    clear_cache()
+    fastf1.Cache.enable_cache("./cache")
+
+    # Load existing qualifying data if available
+    if os.path.exists(QUALIFYING_PATH):
+        print("Loading existing qualifying dataset...")
+        qualifying_existing = pd.read_csv(QUALIFYING_PATH)
+
+        # Create a set of processed (season, round_num) pairs
+        processed = set(
+            zip(qualifying_existing["season"], qualifying_existing["round_num"])
+        )
+    else:
+        print("No existing qualifying dataset found. Starting fresh...")
+        qualifying_existing = pd.DataFrame()
+        processed = set()
+
+    # Load races and filter out processed sessions
+    races = pd.read_csv(RACES_PATH)
+    races = races[~races[["season", "round_num"]].apply(tuple, axis=1).isin(processed)]
+    races = races[races["season"] == 2024]
+
+    if races.empty:
+        print("No new races to process. Exiting.")
+    else:
+        fetch_qualifying(races)
 
 
 if __name__ == "__main__":
