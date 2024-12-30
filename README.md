@@ -51,3 +51,17 @@ For my first dataset collected for races, the data scraped from Formula 1’s we
 <div align="center">
     <i>Table 1.1: Race data collected from FastF1 API.</i>
 </div>
+
+### Results
+My second dataset was the results of each races. I used FastF1's api to fetch each race from 1950-2024 and collected information such as position, grid starting poistion, time, status(will give reason for retirement, not just finish), and any other information I thought would be helpful later such as the driver information (team, country).
+| Season | Round | Grand Prix            | Position | Classified Position | Grid Position | Time            | Status    | Points | Abbrv | First Name | Last Name     | Full Name      | Driver Number | Driver ID    | Country Code | Team Name     | Team ID |
+|--------|-------|-----------------------|----------|----------------------|---------------|-----------------|-----------|--------|-------|------------|---------------|----------------|---------------|--------------|--------------|---------------|---------|
+| 1950   | 1     | British Grand Prix    | 1.0      | 1                    | 1.0           | 02:13:23.600000 | Finished  | 9.0    |       | Nino       | Farina        | Nino Farina    | 2             | farina       |              | Alfa Romeo    | alfa    |
+| 1950   | 1     | British Grand Prix    | 2.0      | 2                    | 2.0           | 00:00:02.600000 | Finished  | 6.0    |       | Luigi      | Fagioli       | Luigi Fagioli  | 3             | fagioli      |              | Alfa Romeo    | alfa    |
+| 1950   | 1     | British Grand Prix    | 3.0      | 3                    | 4.0           | 00:00:52        | Finished  | 4.0    |       | Reg        | Parnell       | Reg Parnell    | 4             | reg_parnell  |              | Alfa Romeo    | alfa    |
+| 1950   | 1     | British Grand Prix    | 4.0      | 4                    | 6.0           |                 | +2 Laps   | 3.0    |       | Yves       | Cabantous     | Yves Cabantous | 14            | cabantous    |              | Talbot-Lago   | lago    |
+| 1950   | 1     | British Grand Prix    | 5.0      | 5                    | 9.0           |                 | +2 Laps   | 2.0    |       | Louis      | Rosier        | Louis Rosier   | 15            | rosier       |              | Talbot-Lago   | lago    |
+
+<div align="center">
+    <i>Table 1.2: Race results data collected from FastF1 API.</i>
+</div>
