@@ -92,20 +92,29 @@ def fetch_qualifying(races):
             session = fastf1.get_session(season, round_num, "Q")
             session.load()
 
+            fields = {
+                "position": "Position",
+                "driver_num": "DriverNumber",
+                "full_name": "FullName",
+                "q1": "Q1",
+                "q2": "Q2",
+                "q3": "Q3",
+            }
+
+            # Iterate through session results
             for _, driver in session.results.iterrows():
                 qualifying["season"].append(season)
                 qualifying["round_num"].append(round_num)
                 qualifying["grand_prix"].append(grand_prix)
-                qualifying["position"].append(driver.get("Position", None))
-                qualifying["driver_num"].append(driver.get("DriverNumber", None))
-                qualifying["full_name"].append(driver.get("FullName", None))
-                qualifying["q1"].append(clean_time(driver.get("Q1", None)))
-                qualifying["q2"].append(clean_time(driver.get("Q2", None)))
-                qualifying["q3"].append(clean_time(driver.get("Q3", None)))
+
+                for key, column in fields.items():
+                    value = driver.get(column, None)
+                    qualifying[key].append(
+                        clean_time(value) if key in ["q1", "q2", "q3"] else value
+                    )
 
             append_data_to_csv(qualifying, "qualifying(1950-2024)")
 
-            # Reset qualifying dictionary for the next session
             qualifying = initialize_qualifying()
         except Exception as e:
             print(
@@ -136,7 +145,7 @@ def main():
     # Load races and filter out processed sessions
     races = pd.read_csv(RACES_PATH)
     races = races[~races[["season", "round_num"]].apply(tuple, axis=1).isin(processed)]
-    races = races[races["season"] == 2024]
+    races = races[races["season"] >= 1990]  # Only process seasons from 1970 onwards
 
     if races.empty:
         print("No new races to process. Exiting.")
