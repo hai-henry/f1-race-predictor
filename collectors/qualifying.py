@@ -5,23 +5,113 @@ import time
 import fastf1
 import pandas as pd
 
-# TODO: Collect qualifying data for all races from 1950-2024
-# TODO: Actively add qualifying data to the dataset as collected like results
+DATA_DIR = "data/raw"
+QUALIFYING_PATH = f"{DATA_DIR}/qualifying(1950-2024).csv"
+RACES_PATH = f"{DATA_DIR}/races(1950-2024).csv"
+DELAY_RANGE = (3, 10)
 
 
-# Load the races dataset to get season and round
-RACES = pd.read_csv("data/raw/races/races(1950-2024).csv")
-RACES = RACES.loc[RACES["round_num"] != 0]  # Dropping pre-season testing
+def clear_cache():
+    """
+    Clear the cache.
+    """
+    clear_cache = input("Do you want to clear the cache? (y/n): ").lower()
+    if clear_cache == "y":
+        fastf1.Cache.clear_cache("./cache")
+        print("Cache cleared.")
+
+
+def initialize_qualifying():
+    """
+    Initialize qualify directory.
+    """
+    return {
+        "season": [],
+        "round_num": [],
+        "grand_prix": [],
+        "position": [],
+        "driver_num": [],
+        "full_name": [],
+        "q1": [],
+        "q2": [],
+        "q3": [],
+    }
+
+
+def append_data_to_csv(dictionary, filename):
+    """
+    Append the race data to the CSV file.
+
+    Args:
+        dictionary (dict): The dictionary to append.
+        filename (str): The filename to append the data to.
+    """
+    df = pd.DataFrame(dictionary)
+    df.to_csv(
+        f"data/raw/{filename}.csv",
+        mode="a",
+        header=not os.path.exists(f"data/raw/{filename}.csv"),
+        index=False,
+    )
+    print(f"Data appended to {filename}.csv")
+
+
+def clean_time(raw_time):
+    """
+    Clean the time string by removing 'days' and formatting correctly.
+
+    Args:
+        raw_time (str): The raw time string (e.g., '0 days 00:01:30.031000').
+
+    Returns:
+        str: The cleaned time string (e.g., '00:01:30.031000'), or None if invalid.
+    """
+    if pd.notnull(raw_time):
+        return (
+            str(raw_time).replace("0 days ", "").split(".")[0]
+        )  # Remove days and keep up to seconds
+    return None
 
 
 def main():
-    # Extract relevant columns
-    qualifying_data = RACES[["season", "round_num"]]
+    clear_cache()
+    fastf1.Cache.enable_cache("./cache")
 
-    # Save to a new CSV file for verification
-    qualifying_data.to_csv("data/raw/qualifying(1950-2024).csv", index=False)
+    races = pd.read_csv(RACES_PATH)
+    races = races[races["season"] == 2024]
+    qualifying = initialize_qualifying()
 
-    print("Qualifying rounds data saved to qualifying(1950-2024).csv")
+    for _, row in races.iterrows():
+        season = row["season"]
+        round_num = row["round_num"]
+        grand_prix = row["event_name"]
+
+        print(f"Processing qualifying data for Season {season}, Round {round_num}...")
+
+        try:
+            session = fastf1.get_session(season, round_num, "Q")
+            session.load()
+
+            for _, driver in session.results.iterrows():
+                qualifying["season"].append(season)
+                qualifying["round_num"].append(round_num)
+                qualifying["grand_prix"].append(grand_prix)
+                qualifying["position"].append(driver.get("Position", None))
+                qualifying["driver_num"].append(driver.get("DriverNumber", None))
+                qualifying["full_name"].append(driver.get("FullName", None))
+                qualifying["q1"].append(clean_time(driver.get("Q1", None)))
+                qualifying["q2"].append(clean_time(driver.get("Q2", None)))
+                qualifying["q3"].append(clean_time(driver.get("Q3", None)))
+
+            append_data_to_csv(qualifying, "qualifying(1950-2024)")
+
+            qualifying = initialize_qualifying()
+        except Exception as e:
+            print(
+                f"Error processing qualifying for Season {season}, Round {round_num}: {e}"
+            )
+
+        time.sleep(random.uniform(*DELAY_RANGE))  # Delay to avoid overloading the API
 
 
 if __name__ == "__main__":
