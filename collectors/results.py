@@ -10,18 +10,7 @@ import fastf1
 import pandas as pd
 
 RACES = pd.read_csv("data/raw/races(1950-2024).csv")
-DELAY_RANGE = (1, 5)
-
-
-# Load the results dataset, if it exists
-if os.path.exists("data/raw/results(1950-2024).csv"):
-    RESULTS = pd.read_csv("data/raw/results(1950-2024).csv")
-    # Filter out already processed races
-    processed = set(zip(RESULTS["season"], RESULTS["round"]))
-    RACES = RACES[~RACES[["season", "round_num"]].apply(tuple, axis=1).isin(processed)]
-else:
-    RESULTS = pd.DataFrame()
-    processed = set()
+DELAY_RANGE = (2, 5)
 
 
 def clear_cache():
@@ -61,8 +50,8 @@ def fetch_results(races):
     """
     for _, row in races.iterrows():
         season = row["season"]
-        round_num = row["round_num"]
-        grand_prix = row["event_name"]
+        round_num = row["RoundNumber"]
+        grand_prix = row["EventName"]
 
         print(f"Processing: Season {season}, Round {round_num}, {grand_prix}")
 
@@ -72,16 +61,16 @@ def fetch_results(races):
 
             results = session.results.copy()
             results["season"] = season
-            results["round_num"] = round_num
-            results["grand_prix"] = grand_prix
+            results["RoundNumber"] = round_num
+            results["EventName"] = grand_prix
 
             # Reorder columns to ensure season, round_num, and grand_prix are first
             results = results[
-                ["season", "round_num", "grand_prix"]
+                ["season", "RoundNumber", "EventName"]
                 + [
                     col
                     for col in results.columns
-                    if col not in ["season", "round_num", "grand_prix"]
+                    if col not in ["season", "RoundNumber", "EventName"]
                 ]
             ]
 
@@ -97,6 +86,18 @@ def fetch_results(races):
 def main():
     clear_cache()
     fastf1.Cache.enable_cache("./cache")
+
+    # Load the results dataset, if it exists
+    if os.path.exists("data/raw/results(1950-2024).csv"):
+        RESULTS = pd.read_csv("data/raw/results(1950-2024).csv")
+        # Filter out already processed races
+        processed = set(zip(RESULTS["season"], RESULTS["RoundNumber"]))
+        RACES = RACES[
+            ~RACES[["season", "RoundNumber"]].apply(tuple, axis=1).isin(processed)
+        ]
+    else:
+        RESULTS = pd.DataFrame()
+        processed = set()
 
     if RACES.empty:
         print("No new races to process. Exiting.")

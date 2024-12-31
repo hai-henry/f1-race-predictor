@@ -48,8 +48,8 @@ def fetch_qualifying(races):
     """
     for _, row in races.iterrows():
         season = row["season"]
-        round_num = row["round_num"]
-        grand_prix = row["event_name"]
+        round_num = row["RoundNumber"]
+        grand_prix = row["EventName"]
 
         print(f"Processing qualifying data for Season {season}, Round {round_num}...")
 
@@ -59,14 +59,14 @@ def fetch_qualifying(races):
 
             qualifying_data = session.results.copy()
             qualifying_data["season"] = season
-            qualifying_data["round_num"] = round_num
-            qualifying_data["grand_prix"] = grand_prix
+            qualifying_data["RoundNumber"] = round_num
+            qualifying_data["EventName"] = grand_prix
 
             # Reorder columns so season, round_num, and grand_prix are first
-            columns_order = ["season", "round_num", "grand_prix"] + [
+            columns_order = ["season", "RoundNumber", "EventName"] + [
                 col
                 for col in qualifying_data.columns
-                if col not in ["season", "round_num", "grand_prix"]
+                if col not in ["season", "RoundNumber", "EventName"]
             ]
             qualifying_data = qualifying_data[columns_order]
 
@@ -91,7 +91,7 @@ def main():
 
         # Create a set of processed (season, round_num) pairs
         processed = set(
-            zip(qualifying_existing["season"], qualifying_existing["round_num"])
+            zip(qualifying_existing["season"], qualifying_existing["RoundNumber"])
         )
     else:
         print("No existing qualifying dataset found. Starting fresh...")
@@ -99,8 +99,10 @@ def main():
 
     # Load races and filter out processed sessions
     races = pd.read_csv(RACES_PATH)
-    races = races[~races[["season", "round_num"]].apply(tuple, axis=1).isin(processed)]
-    races = races[races["season"] >= 2000]  # Filter seasons
+    races = races[
+        ~races[["season", "RoundNumber"]].apply(tuple, axis=1).isin(processed)
+    ]
+    races = races[races["season"] >= 2020]  # Filter seasons
 
     if races.empty:
         print("No new races to process. Exiting.")

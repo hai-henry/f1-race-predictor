@@ -13,7 +13,7 @@ BEGIN_SCRAPE_SEASON = 1950
 END_SCRAPE_SEASON = 2024
 
 RACES_PATH = "data/raw/races(1950-2024).csv"
-DELAY_RANGE = (1, 5)
+DELAY_RANGE = (2, 5)
 
 
 def clear_cache():
