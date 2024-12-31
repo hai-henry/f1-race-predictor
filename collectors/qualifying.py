@@ -8,7 +8,7 @@ import pandas as pd
 DATA_DIR = "data/raw"
 QUALIFYING_PATH = f"{DATA_DIR}/qualifying(1950-2024).csv"
 RACES_PATH = f"{DATA_DIR}/races(1950-2024).csv"
-DELAY_RANGE = (3, 10)
+DELAY_RANGE = (1, 5)
 
 
 def clear_cache():
@@ -21,56 +21,22 @@ def clear_cache():
         print("Cache cleared.")
 
 
-def initialize_qualifying():
+def append_data_to_csv(df, filename):
     """
-    Initialize qualify directory.
-    """
-    return {
-        "season": [],
-        "round_num": [],
-        "grand_prix": [],
-        "position": [],
-        "driver_num": [],
-        "full_name": [],
-        "q1": [],
-        "q2": [],
-        "q3": [],
-    }
-
-
-def append_data_to_csv(dictionary, filename):
-    """
-    Append the race data to the CSV file.
+    Append the DataFrame to the CSV file.
 
     Args:
-        dictionary (dict): The dictionary to append.
+        df (pd.DataFrame): The DataFrame to append.
         filename (str): The filename to append the data to.
     """
-    df = pd.DataFrame(dictionary)
+    filepath = f"{DATA_DIR}/{filename}"
     df.to_csv(
-        f"data/raw/{filename}.csv",
+        filepath,
         mode="a",
-        header=not os.path.exists(f"data/raw/{filename}.csv"),
+        header=not os.path.exists(filepath),
         index=False,
     )
-    print(f"Data appended to {filename}.csv")
-
-
-def clean_time(raw_time):
-    """
-    Clean the time string by removing 'days' and formatting correctly.
-
-    Args:
-        raw_time (str): The raw time string (e.g., '0 days 00:01:30.031000').
-
-    Returns:
-        str: The cleaned time string (e.g., '00:01:30.031000'), or None if invalid.
-    """
-    if pd.notnull(raw_time):
-        return (
-            str(raw_time).replace("0 days ", "").split(".")[0]
-        )  # Remove days and keep up to seconds
-    return None
+    print(f"Data appended to {filename}.")
 
 
 def fetch_qualifying(races):
@@ -78,9 +44,8 @@ def fetch_qualifying(races):
     Fetch qualifying data for given races.
 
     Args:
-        races (dataframe): Dataframe containing qualifying details (season, round_num, event_name, drivers, qualifying times).
+        races (pd.DataFrame): DataFrame containing race details (season, round_num, event_name).
     """
-    qualifying = initialize_qualifying()
     for _, row in races.iterrows():
         season = row["season"]
         round_num = row["round_num"]
@@ -92,30 +57,21 @@ def fetch_qualifying(races):
             session = fastf1.get_session(season, round_num, "Q")
             session.load()
 
-            fields = {
-                "position": "Position",
-                "driver_num": "DriverNumber",
-                "full_name": "FullName",
-                "q1": "Q1",
-                "q2": "Q2",
-                "q3": "Q3",
-            }
+            qualifying_data = session.results.copy()
+            qualifying_data["season"] = season
+            qualifying_data["round_num"] = round_num
+            qualifying_data["grand_prix"] = grand_prix
 
-            # Iterate through session results
-            for _, driver in session.results.iterrows():
-                qualifying["season"].append(season)
-                qualifying["round_num"].append(round_num)
-                qualifying["grand_prix"].append(grand_prix)
+            # Reorder columns so season, round_num, and grand_prix are first
+            columns_order = ["season", "round_num", "grand_prix"] + [
+                col
+                for col in qualifying_data.columns
+                if col not in ["season", "round_num", "grand_prix"]
+            ]
+            qualifying_data = qualifying_data[columns_order]
 
-                for key, column in fields.items():
-                    value = driver.get(column, None)
-                    qualifying[key].append(
-                        clean_time(value) if key in ["q1", "q2", "q3"] else value
-                    )
+            append_data_to_csv(qualifying_data, "qualifying(1950-2024).csv")
 
-            append_data_to_csv(qualifying, "qualifying(1950-2024)")
-
-            qualifying = initialize_qualifying()
         except Exception as e:
             print(
                 f"Error processing qualifying for Season {season}, Round {round_num}: {e}"
@@ -139,13 +95,12 @@ def main():
         )
     else:
         print("No existing qualifying dataset found. Starting fresh...")
-        qualifying_existing = pd.DataFrame()
         processed = set()
 
     # Load races and filter out processed sessions
     races = pd.read_csv(RACES_PATH)
     races = races[~races[["season", "round_num"]].apply(tuple, axis=1).isin(processed)]
-    races = races[races["season"] >= 1990]  # Only process seasons from 1970 onwards
+    races = races[races["season"] >= 2000]  # Filter seasons
 
     if races.empty:
         print("No new races to process. Exiting.")
