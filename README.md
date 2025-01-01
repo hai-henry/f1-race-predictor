@@ -1,6 +1,6 @@
 # Formula 1 Race Predictor and Analysis
 > [!NOTE]  
-> Currently collecting qualifying data.
+> Currently collecting sprint data.
 
 - [x] Collect Races
 - [X] Collect Race Results
