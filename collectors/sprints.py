@@ -1,3 +1,7 @@
+"""
+Collect sprint data for Formula 1.
+"""
+
 import os
 
 import fastf1

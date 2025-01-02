@@ -1,3 +1,7 @@
+"""
+Collect qualifying data for Formula 1.
+"""
+
 import os
 import random
 import time
