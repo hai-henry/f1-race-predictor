@@ -5,7 +5,7 @@
 - [x] Collect Races
 - [X] Collect Race Results
 - [x] Collect Qualifying data
-- [ ] Collect Sprint  Data
+- [x] Collect Sprint  Data
 - [ ] Collect Constructor Standings
 - [ ] Collect Lap Times
 - [ ] Collect Weather Data
@@ -67,7 +67,7 @@ My second dataset was the results of each races. I used FastF1's api to fetch ea
 </div>
 
 ### Qualifying
-The third dataset is qualifying results for each race. I also used FastF1's API here to fetch each qualifying result but noticed that FastF1's API only had qualifying data from 1994 onwards. Qualifying also had many changes and tweaks throughout Formula 1's history until 2010, where the current qualifying format is now used. This dataset has information on drivers, their qualifying times from each stage, grid positions, and additional information from the API request.
+The third dataset is qualifying results for each race. I also used FastF1's API here to fetch each qualifying result but noticed that FastF1's API only had qualifying data from 1994 onwards. Qualifying also had many changes and tweaks throughout Formula 1's history until 2010, where the current qualifying format is now used. So the dataset for qualifying isn't consistent. This dataset has information on drivers, their qualifying times from each stage, grid positions, and additional information from the API request.
 
 | Season | RoundNumber | EventName            | DriverNumber | BroadcastName | Abbreviation | DriverId         | TeamName  | TeamColor | TeamId    | FirstName       | LastName     | FullName               | HeadshotUrl | CountryCode | Position | ClassifiedPosition | GridPosition | Q1               | Q2  | Q3  | Time                  | Status | Points |
 |--------|-------------|----------------------|--------------|---------------|--------------|------------------|-----------|-----------|-----------|------------------|--------------|------------------------|-------------|-------------|----------|--------------------|--------------|-----|-----|-----|-----------------------|--------|--------|
@@ -80,3 +80,4 @@ The third dataset is qualifying results for each race. I also used FastF1's API 
 <div align="center">
     <i>Table 1.3: Raw qualifying data collected from FastF1 API.</i>
 </div>
+
