@@ -147,8 +147,8 @@ def process_sprint_qualifying(sprints: pd.DataFrame):
         sprints (pd.DataFrame): Dataframe containing sprint race metadata.
     """
     # Check for existing sprint qualifying results
-    if os.path.exists(SPRINT_QUALIFYING_RESULTS_PATH):
-        existing_sprint_qual_results = pd.read_csv(SPRINT_QUALIFYING_RESULTS_PATH)
+    if os.path.exists(SPRINT_QUALIFYING_PATH):
+        existing_sprint_qual_results = pd.read_csv(SPRINT_QUALIFYING_PATH)
         processed_qualifying = set(
             zip(
                 existing_sprint_qual_results["season"],
@@ -180,9 +180,9 @@ def process_sprint_qualifying(sprints: pd.DataFrame):
             sprint_qual_results = sprint_qual_results[columns_order]
 
             sprint_qual_results.to_csv(
-                SPRINT_QUALIFYING_RESULTS_PATH,
+                SPRINT_QUALIFYING_PATH,
                 mode="a",
-                header=not os.path.exists(SPRINT_QUALIFYING_RESULTS_PATH),
+                header=not os.path.exists(SPRINT_QUALIFYING_PATH),
                 index=False,
             )
             print(
