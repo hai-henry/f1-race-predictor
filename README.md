@@ -6,7 +6,8 @@
 - [X] Collect Race Results
 - [x] Collect Qualifying data
 - [x] Collect Sprint  Data
-- [ ] Collect Constructor Standings
+- [ ] Collect Drivers & Driver Standings
+- [ ] Collect Constructors and Constructor Standings
 - [ ] Collect Lap Times
 - [ ] Collect Weather Data
 
