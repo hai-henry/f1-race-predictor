@@ -5,6 +5,7 @@ import pandas as pd
 RESULTS_PATH = "data/raw/results(1950-2024).csv"
 OUTPUT_PATH = "data/raw/driver_standings(1950-2024).csv"
 SPRINT_RESULTS_PATH = "data/raw/sprint_results.csv"
+BEGIN_SEASON = 1950
 
 
 class Driver:
@@ -24,72 +25,60 @@ class Driver:
 
 def main():
     results = pd.read_csv(RESULTS_PATH)
-    results = results[(results["season"] == 2024)]
-
-    driver_objects = {}
-
-    for _, row in results.iterrows():
-        driver_name = row["FullName"]
-
-        # Assign points to driver, if points are null assign 0
-        points = row["Points"] if pd.notnull(row["Points"]) else 0
-
-        # Check if driver is already in dictionary, if not create new driver object
-        if driver_name in driver_objects:
-            driver_objects[driver_name].add_points(points)
-        else:
-            driver = Driver(
-                season=row["season"],
-                name=row["FullName"],
-                country=row["CountryCode"],
-                team=row["FullName"],
-                points=points,
-            )
-            driver_objects[driver_name] = driver
+    results = results[(results["season"] >= BEGIN_SEASON)]
 
     sprint_results = pd.read_csv(SPRINT_RESULTS_PATH)
-    sprint_results = sprint_results[(sprint_results["season"] == 2024)]
 
-    for _, row in sprint_results.iterrows():
-        driver_name = row["FullName"]
+    # Combine results and sprint_results into a single DataFrame
+    combined_results = pd.concat([results, sprint_results])
 
-        # Assign points to driver, if points are null assign 0
-        points = row["Points"] if pd.notnull(row["Points"]) else 0
+    for season, season_data in combined_results.groupby("season"):
+        driver_objects = {}
 
-        # Check if driver is already in dictionary, if not create new driver object
-        if driver_name in driver_objects:
-            driver_objects[driver_name].add_points(points)
-        else:
-            driver = Driver(
-                season=row["season"],
-                name=row["FullName"],
-                country=row["CountryCode"],
-                team=row["FullName"],
-                points=points,
+        for _, row in season_data.iterrows():
+            driver_name = row["FullName"]
+
+            # Assign points to driver, if points are null assign 0
+            points = row["Points"] if pd.notnull(row["Points"]) else 0
+
+            # Check if driver is already in dictionary, if not create new driver object
+            if driver_name in driver_objects:
+                driver_objects[driver_name].add_points(points)
+            else:
+                driver = Driver(
+                    season=row["season"],
+                    name=row["FullName"],
+                    country=row["CountryCode"],
+                    team=row["TeamName"],
+                    points=points,
+                )
+                driver_objects[driver_name] = driver
+
+        # Create dataframe from driver objects, sorted by points
+        drivers_data = [
+            {
+                "season": driver.season,
+                "Position": position + 1,
+                "FullName": driver.name,
+                "CountryCode": driver.country,
+                "Team": driver.team,
+                "Points": driver.points,
+            }
+            for position, driver in enumerate(
+                sorted(
+                    driver_objects.values(),
+                    key=lambda x: x.points,
+                    reverse=True,
+                )
             )
-            driver_objects[driver_name] = driver
+        ]
+        season_df = pd.DataFrame(drivers_data)
 
-    # Create dataframe from driver objects
-    drivers_data = [
-        {
-            "season": driver.season,
-            "FullName": driver.name,
-            "CountryCode": driver.country,
-            "Team": driver.team,
-            "Points": driver.points,
-        }
-        for driver in driver_objects.values()
-    ]
-    drivers_df = pd.DataFrame(drivers_data)
-
-    # Sort drivers by Points in descending order
-    drivers_df = drivers_df.sort_values(by="Points", ascending=False)
-
-    # Add Position column
-    drivers_df.insert(1, "Position", range(1, len(drivers_df) + 1))
-
-    # Output driver standings to csv
-    drivers_df.to_csv(OUTPUT_PATH, index=False)
+        # Append to CSV file; write header only if file doesn't exist
+        if not os.path.exists(OUTPUT_PATH):
+            season_df.to_csv(OUTPUT_PATH, index=False, mode="w", header=True)
+        else:
+            season_df.to_csv(OUTPUT_PATH, index=False, mode="a", header=False)
 
 
 if __name__ == "__main__":
