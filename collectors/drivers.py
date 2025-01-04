@@ -8,7 +8,8 @@ SPRINT_RESULTS_PATH = "data/raw/sprint_results.csv"
 
 
 class Driver:
-    def __init__(self, name, country, team, points):
+    def __init__(self, season, name, country, team, points):
+        self.season = season
         self.name = name
         self.country = country
         self.team = team
@@ -23,20 +24,22 @@ class Driver:
 
 def main():
     results = pd.read_csv(RESULTS_PATH)
-    results = results[(results["season"] == 2024) & (results["RoundNumber"] >= 23)]
+    results = results[(results["season"] == 2024)]
 
     driver_objects = {}
 
-    # Iterate through race results
     for _, row in results.iterrows():
         driver_name = row["FullName"]
-        points = row["Points"] if pd.notnull
+
+        # Assign points to driver, if points are null assign 0
+        points = row["Points"] if pd.notnull(row["Points"]) else 0
 
         # Check if driver is already in dictionary, if not create new driver object
         if driver_name in driver_objects:
             driver_objects[driver_name].add_points(points)
         else:
             driver = Driver(
+                season=row["season"],
                 name=row["FullName"],
                 country=row["CountryCode"],
                 team=row["FullName"],
@@ -44,8 +47,10 @@ def main():
             )
             driver_objects[driver_name] = driver
 
+    # Create dataframe from driver objects
     drivers_data = [
         {
+            "season": driver.season,
             "FullName": driver.name,
             "CountryCode": driver.country,
             "Team": driver.team,
@@ -54,6 +59,8 @@ def main():
         for driver in driver_objects.values()
     ]
     drivers_df = pd.DataFrame(drivers_data)
+
+    # Output driver standings to csv
     drivers_df.to_csv(OUTPUT_PATH, index=False)
 
 
