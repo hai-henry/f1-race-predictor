@@ -82,6 +82,12 @@ def main():
     ]
     drivers_df = pd.DataFrame(drivers_data)
 
+    # Sort drivers by Points in descending order
+    drivers_df = drivers_df.sort_values(by="Points", ascending=False)
+
+    # Add Position column
+    drivers_df.insert(1, "Position", range(1, len(drivers_df) + 1))
+
     # Output driver standings to csv
     drivers_df.to_csv(OUTPUT_PATH, index=False)
 
