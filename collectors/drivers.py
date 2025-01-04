@@ -47,6 +47,28 @@ def main():
             )
             driver_objects[driver_name] = driver
 
+    sprint_results = pd.read_csv(SPRINT_RESULTS_PATH)
+    sprint_results = sprint_results[(sprint_results["season"] == 2024)]
+
+    for _, row in sprint_results.iterrows():
+        driver_name = row["FullName"]
+
+        # Assign points to driver, if points are null assign 0
+        points = row["Points"] if pd.notnull(row["Points"]) else 0
+
+        # Check if driver is already in dictionary, if not create new driver object
+        if driver_name in driver_objects:
+            driver_objects[driver_name].add_points(points)
+        else:
+            driver = Driver(
+                season=row["season"],
+                name=row["FullName"],
+                country=row["CountryCode"],
+                team=row["FullName"],
+                points=points,
+            )
+            driver_objects[driver_name] = driver
+
     # Create dataframe from driver objects
     drivers_data = [
         {
