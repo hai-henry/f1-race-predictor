@@ -61,7 +61,7 @@ def main():
                 "Position": position + 1,
                 "FullName": driver.name,
                 "CountryCode": driver.country,
-                "Team": driver.team,
+                "TeamName": driver.team,
                 "Points": driver.points,
             }
             for position, driver in enumerate(
