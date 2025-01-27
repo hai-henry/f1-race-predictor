@@ -20,39 +20,40 @@ class Constructor:
 
 def main():
     driver_standings = pd.read_csv(DRIVER_STANDINGS_PATH)
+    driver_standings = driver_standings[driver_standings["season"] >= 2024]
+
+    # print(driver_standings)
 
     constructor_objects = {}
 
-    # Group by season and team to processess each season separately
-    for (season, team_name), group in driver_standings.groupby(["season", "TeamName"]):
-        drivers = group["FullName"].tolist()
-        total_points = group["Points"].sum()
-
-        if team_name in constructor_objects:
-            constructor_objects[team_name].add_points(total_points)
+    for _, driver in driver_standings.iterrows():
+        if driver["TeamName"] in constructor_objects:
+            constructor_objects[driver["TeamName"]].add_points(driver["Points"])
         else:
             constructor = Constructor(
-                season=season,
-                team=team_name,
-                drivers=drivers,
-                points=total_points,
+                season=driver["season"],
+                team=driver["TeamName"],
+                drivers=[driver["FullName"]],
+                points=driver["Points"],
             )
-            constructor_objects[team_name] = constructor
+            constructor_objects[driver["TeamName"]] = constructor
 
-    # Convert to dataframe
-    constructors_data = [
+    # Print constructor objects
+
+    constructor_data = [
         {
             "season": constructor.season,
+            "Position": position + 1,
             "TeamName": constructor.team,
-            "Drivers": ", ".join(constructor.drivers),
             "Points": constructor.points,
         }
-        for constructor in constructor_objects.values()
+        for position, constructor in enumerate(
+            sorted(constructor_objects.values(), key=lambda x: x.points, reverse=True)
+        )
     ]
+    constructor_df = pd.DataFrame(constructor_data)
 
-    constructors_df = pd.DataFrame(constructors_data)
-
-    constructors_df.to_csv(OUTPUT_PATH, index=False)
+    print(constructor_df)
 
 
 if __name__ == "__main__":
