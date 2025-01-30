@@ -9,7 +9,7 @@ import os
 import pandas as pd
 
 DRIVER_STANDINGS_PATH = "data/raw/driver_standings(1950-2024).csv"
-OUTPUT_PATH = "data/raw/constructor_standings(1991-2024).csv"
+OUTPUT_PATH = "data/raw/constructor_standings(1950-2024).csv"
 
 
 class Constructor:
@@ -28,7 +28,7 @@ class Constructor:
 
 def main():
     driver_standings = pd.read_csv(DRIVER_STANDINGS_PATH)
-    driver_standings = driver_standings[driver_standings["season"] >= 1991]
+    # driver_standings = driver_standings[driver_standings["season"] >= 1991]
 
     for season, season_data in driver_standings.groupby("season"):
         constructor_objects = {}
