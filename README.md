@@ -121,3 +121,31 @@ The sprint race weekend format is fairly new so there isn't much data to be coll
 <div align="center">
     <i>Table 1.6: Raw sprint qualifying results data collected from FastF1 API.</i>
 </div>
+
+### Driver Standings
+| Season | Position | Full Name       | Country Code | Team Name        | Points |
+|--------|----------|----------------|--------------|------------------|--------|
+| 1950   | 1        | Nino Farina     | ITA          | Alfa Romeo       | 30     |
+| 1950   | 2        | Juan M. Fangio  | ARG          | Alfa Romeo       | 27     |
+| 1950   | 3        | Luigi Fagioli   | ITA          | Alfa Romeo       | 24     |
+| 1950   | 4        | Reg Parnell     | GBR          | Alfa Romeo       | 12     |
+| 1950   | 5        | Louis Rosier    | FRA          | Talbot-Lago      | 10     |
+
+<div align="center">
+    <i>Table 1.7: Raw driver standings collected from FastF1 API.</i>
+</div>
+
+### Constructor Standings
+The constructors championship was not introduced until 1958 but the current format of the championship started to be used in 1991 so I decided to focus on the seasons 1991 onwards for constructors championships.
+
+| Season | Position | Team Name       | Drivers                          | Points |
+|--------|----------|----------------|----------------------------------|--------|
+| 1991   | 1        | McLaren         | Ayrton Senna, Gerhard Berger    | 139    |
+| 1991   | 2        | Williams        | Nigel Mansell, Riccardo Patrese | 125    |
+| 1991   | 3        | Ferrari         | Alain Prost, Jean Alesi         | 55     |
+| 1991   | 4        | Benetton        | Nelson Piquet, Roberto Moreno   | 38     |
+| 1991   | 5        | Tyrrell         | Satoru Nakajima, Stefano Modena | 12     |
+
+<div align="center">
+    <i>Table 1.8: Raw constructor standings collected from FastF1 API.</i>
+</div>
