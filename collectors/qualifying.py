@@ -74,7 +74,7 @@ def fetch_qualifying(races):
             ]
             qualifying_data = qualifying_data[columns_order]
 
-            append_data_to_csv(qualifying_data, "qualifying(1950-2024).csv")
+            append_data_to_csv(qualifying_data, "qualifying(1994-2024).csv")
 
         except Exception as e:
             print(
