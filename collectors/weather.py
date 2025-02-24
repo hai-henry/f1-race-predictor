@@ -10,7 +10,7 @@ import pandas as pd
 
 # File paths and constants
 RACES_PATH = "data/raw/races(1950-2024).csv"
-WEATHER_OUTPUT_PATH = "data/raw/weather_test.csv"
+WEATHER_OUTPUT_PATH = "data/raw/weather.csv"
 DELAY_RANGE = (1, 5)
 
 
@@ -60,7 +60,7 @@ def main():
 
     # Load the races dataset
     races = pd.read_csv(RACES_PATH)
-    races = races[races["season"] >= 2018]  # Filter
+    races = races[races["season"] >= 2020]  # Filter
 
     # Check if the weather output CSV already exists.
     if os.path.exists(WEATHER_OUTPUT_PATH):
