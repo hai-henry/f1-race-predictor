@@ -1,6 +1,6 @@
 # Formula 1 Race Predictor and Analysis
 > [!NOTE]  
-> Currently collecting constructors' data.
+> Currently collecting weather data.
 
 - [x] Collect Races
 - [X] Collect Race Results
@@ -8,7 +8,6 @@
 - [x] Collect Sprint  Data
 - [x] Collect Drivers & Driver Standings
 - [x] Collect Constructors and Constructor Standings
-- [ ] Collect Lap Times
 - [ ] Collect Weather Data
 
 
