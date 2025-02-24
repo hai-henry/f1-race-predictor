@@ -1,14 +1,11 @@
 # Formula 1 Race Predictor and Analysis
-> [!NOTE]  
-> Currently collecting weather data.
-
 - [x] Collect Races
 - [X] Collect Race Results
 - [x] Collect Qualifying data
 - [x] Collect Sprint  Data
 - [x] Collect Drivers & Driver Standings
 - [x] Collect Constructors and Constructor Standings
-- [ ] Collect Weather Data
+- [x] Collect Weather Data
 
 
 ## Overview
@@ -147,4 +144,19 @@ The constructors championship was not introduced until 1958 but the current form
 
 <div align="center">
     <i>Table 1.8: Raw constructor standings collected from FastF1 API.</i>
+</div>
+
+### Weather Data 
+I believed analyzing collected weather data would be crucial, considering weather plays a significant role in determining the outcome of Formula 1 races. I intended to use this data in the future to potentially observe any performance improvements in specific drivers or the opposite effect. The weather data is collected for each lap of every Grand Prix from the 2018 season to the 2024 season, as this is the only data available through the FastF1 API.
+
+| season | RoundNumber | EventName             | Time                     | AirTemp | Humidity | Pressure | Rainfall | TrackTemp | WindDirection | WindSpeed |
+|--------|-------------|-----------------------|--------------------------|---------|----------|----------|----------|-----------|---------------|-----------|
+| 2018   | 1           | Australian Grand Prix | 0 days 00:00:57.060000    | 24.1    | 36.2     | 997.1    | False    | 38.2      | 294           | 3.0       |
+| 2018   | 1           | Australian Grand Prix | 0 days 00:01:57.078000    | 24.0    | 36.3     | 997.1    | False    | 38.6      | 273           | 1.4       |
+| 2018   | 1           | Australian Grand Prix | 0 days 00:02:57.090000    | 24.0    | 36.3     | 997.1    | False    | 38.6      | 273           | 1.4       |
+| 2018   | 1           | Australian Grand Prix | 0 days 00:03:57.106000    | 23.9    | 37.2     | 997.0    | False    | 38.7      | 287           | 2.3       |
+| 2018   | 1           | Australian Grand Prix | 0 days 00:04:57.121000    | 24.2    | 35.8     | 997.1    | False    | 38.7      | 309           | 3.5       |
+
+<div align="center">
+    <i>Table 1.9: Raw weather data for each lap of Australian Grand Prix collected from FastF1 API.</i>
 </div>
