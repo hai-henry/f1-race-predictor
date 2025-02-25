@@ -1,5 +1,7 @@
-# Weather data only collected for seasons 2018 onwards
-# FastF1 API does not provide weather data for seasons before 2018
+"""
+Weather data only collected for seasons 2018 onwards
+FastF1 API does not provide weather data for seasons before 2018
+"""
 
 import os
 import random

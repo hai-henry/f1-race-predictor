@@ -1,8 +1,9 @@
-# The Constructors Championship was not awarded until 1958
-# The current format of the Constructors championship was introduced in 1991
-# This program will calculate the Constructors Championship standings from 1991 to 2024
-# F1 Constructors Championship guide: https://www.formula1.com/en/latest/article/the-beginners-guide-to-the-f1-constructors-championship.66nTfWSqrUYv3bnbosPkHV
-
+"""
+The Constructors Championship was not awarded until 1958
+he current format of the Constructors championship was introduced in 1991
+This program will calculate the Constructors Championship standings from 1991 to 2024
+F1 Constructors Championship guide: https://www.formula1.com/en/latest/article/the-beginners-guide-to-the-f1-constructors-championship.66nTfWSqrUYv3bnbosPkHV
+"""
 
 import os
 
