@@ -20,14 +20,17 @@ def main():
     event_count = data["EventName"].value_counts().reset_index()
     event_count.columns = ["EventName", "Occurences"]  # Rename columns
 
+    # Select top 10 Grand Prix
+    top_ten_events = event_count.head(10)
+
     # Create figure with dark background
-    fig, ax = plt.subplots(figsize=(20, 20))
+    fig, ax = plt.subplots(figsize=(8, 6))
     fig.patch.set_facecolor(background_color)
     ax.set_facecolor(background_color)
 
     # Create bar plot
     bars = sns.barplot(
-        x="Occurences", y="EventName", data=event_count, color=bar_color, ax=ax
+        x="Occurences", y="EventName", data=top_ten_events, color=bar_color, ax=ax
     )
 
     # Style the plot
@@ -46,9 +49,27 @@ def main():
     ax.grid(True, linestyle="--", alpha=0.3, color=grid_color)
 
     # Adjust layout
-    plt.tight_layout(pad=3)
-    plt.subplots_adjust(left=0.3)
+    plt.tight_layout(pad=10)
+    plt.subplots_adjust(left=0.2)
 
+    # Add counts on the sides of the bars
+    for p in ax.patches:
+        ax.text(
+            p.get_width() + 1,
+            p.get_y() + p.get_height() / 2,
+            int(p.get_width()),
+            fontsize=12,
+            color="white",
+            ha="left",
+            va="center",
+        )
+
+    # Final touches
+    # Expand x-axis limits for padding
+    max_occurrences = top_ten_events["Occurences"].max()
+    ax.set_xlim(0, max_occurrences + 10)
+
+    print(event_count)
     # Save and show
     # plt.savefig("f1_grand_prix_occurrences.png", facecolor=background_color)
     plt.show()
