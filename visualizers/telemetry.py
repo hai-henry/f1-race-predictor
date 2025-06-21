@@ -9,7 +9,7 @@ def main():
     fastf1.plotting.setup_mpl(
         mpl_timedelta_support=True, misc_mpl_mods=False, color_scheme="fastf1"
     )
-    fastf1.Cache.enable_cache("/Users/hai/Desktop/f1_cache")
+    fastf1.Cache.enable_cache("f1_cache")
     session = fastf1.get_session(2024, 12, "R")
     session.load()
 
